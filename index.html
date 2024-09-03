@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ΒΟΥΛΗ - A24/ATV MV</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/hero-new" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Hero New', Arial, sans-serif;
+            font-weight: 600;
+            background-color: #f8f8f8;
+        }
+
+        ::selection {
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        .page-container {
+            max-width: 1440px;
+            margin: 0 auto;
+            background-color: #282828;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .header {
+            position: relative;
+            display: flex;
+            align-items: stretch;
+            background-color: #282828;
+            height: 90px;
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #ffd700;
+            width: 85px;
+            height: 100%;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .logo {
+            margin-top: -1px;
+            height: 100%;
+            pointer-events: none;
+            user-drag: none;
+            -webkit-user-drag: none;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            pointer-events: none;
+        }
+
+        .menu-line {
+            width: 40px;
+            height: 3px;
+            background-color: #333;
+            margin: 3px 0;
+            transition: 0.4s;
+        }
+
+        .change {
+            background-color: #ff0000;
+        }
+
+        .change .menu-line {
+            background-color: #ffffff;
+        }
+
+        .change .menu-line:nth-child(1) {
+            transform: rotate(-45deg) translate(-6px, 7px);
+        }
+
+        .change .menu-line:nth-child(2) {
+            opacity: 0;
+        }
+
+        .change .menu-line:nth-child(3) {
+            transform: rotate(45deg) translate(-6px, -7px);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 132px;
+            left: 0;
+            right: 0;
+            background-color: #ffd700d9;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 3;
+            overflow: hidden;
+            max-height: 0;
+            transition: max-height 0.3s cubic-bezier(.86, 0, .07, 1);
+            backdrop-filter: blur(3px) grayscale(100%);
+        }
+
+        .dropdown-menu.show {
+            max-height: calc(100vh - 132px);
+            overflow-y: scroll;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .dropdown-menu.show::-webkit-scrollbar {
+            width: 0;
+            height: 0;
+        }
+
+        .dropdown-menu-content {
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+        }
+
+        .dropdown-menu.show .dropdown-menu-content {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            font-size: 1.2em;
+            box-shadow: 0 5px 17px -10px rgba(0, 0, 0, 0.38);
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #282828;
+            color: #ffd700;
+        }
+
+        .header-video-container {
+            display: flex;
+            flex-grow: 1;
+            justify-content: flex-end;
+            align-items: center;
+            height: 100%;
+            overflow: visible;
+            z-index: 2;
+        }
+
+        .header-video {
+            height: 100%;
+            width: auto;
+            aspect-ratio: 16/9;
+            cursor: pointer;
+            transition: box-shadow 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        #header-video1 {
+            background-image: url(https://i.postimg.cc/9FVp1vkK/OFFLINE.png);
+            background-size: cover;
+        }
+
+        #header-video2 {
+            background-image: url(https://i.postimg.cc/9FVp1vkK/OFFLINE.png);
+            background-size: cover;
+        }
+
+        #video1, #video2, #video3, {
+            background-image: url(https://i.postimg.cc/9FVp1vkK/OFFLINE.png);
+            background-size: cover;
+        }
+
+        #header-video1:hover {
+            box-shadow: 0 0 20px 5px rgb(0 137 255);
+            z-index: 2;
+        }
+
+        #header-video2:hover {
+            box-shadow: 0 0 20px 5px rgb(255 0 0);
+            z-index: 2;
+        }
+
+        .clock {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2em;
+            background-color: #000000;
+            color: #fdd700;
+            min-width: 175px;
+            margin-left: auto;
+            font-size: 26px;
+            font-weight: 800;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        div#current-date {
+            font-size: 21px;
+            line-height: 17px;
+            margin-bottom: 6px;
+        }
+
+        .main-title {
+            text-align: center;
+            background-color: #ffd700;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .video-wrapper {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%;
+        }
+
+        .video-player {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .title-box {
+            background-color: #ffd700;
+            height: 35px;
+            cursor: pointer;
+            font-size: 15px;
+            line-height: 34.5px;
+        }
+
+        .title-text {
+            text-align: center;
+            margin: 0;
+            color: #000000;
+        }
+
+        .video-controls {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 5px;
+            z-index: 2;
+        }
+
+        .control-button {
+            background-color: rgb(255 215 0 / 69%);
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .control-button:hover {
+            background-color: #ffd700;
+        }
+
+        .control-button img {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Fullscreen mode styles */
+.video-container:fullscreen .control-button,
+.video-container:-webkit-full-screen .control-button,
+.video-container:-moz-full-screen .control-button,
+.video-container:-ms-fullscreen .control-button {
+    padding: 12px; /* Increase padding to make buttons bigger */
+}
+
+.video-container:fullscreen .control-button img,
+.video-container:-webkit-full-screen .control-button img,
+.video-container:-moz-full-screen .control-button img,
+.video-container:-ms-fullscreen .control-button img {
+    width: 124px; /* Increase icon size in fullscreen */
+    height: 124px;
+}
+
+        .crawl-container {
+            width: 100%;
+            overflow: hidden;
+            background-color: #1e1e1e;
+            color: white;
+            padding: 10px 0;
+            position: relative;
+        }
+
+        .crawl-wrapper {
+            display: inline-block;
+            white-space: nowrap;
+            position: relative;
+            left: 100%;
+            animation: crawl 680s linear infinite;
+        }
+
+        .crawl-wrapper:hover {
+            animation-play-state: paused;
+        }
+
+        .crawl-item {
+            display: inline-block;
+            margin-right: 50px;
+        }
+
+        .crawl-item a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .crawl-item a:hover {
+            color: #ffd700;
+        }
+
+        @keyframes crawl {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        @media (max-width: 950px) {
+            .header-video-container {
+                display: none;
+            }
+
+            .control-button img {
+                width: 24px;
+                height: 24px;
+            }
+
+            .title-box {
+                height: 42px;
+                line-height: 41px;
+            }
+        }
+
+        @media (max-width: 650px) {
+            .header {
+                position: fixed;
+                width: 100%;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 1000;
+            }
+
+            .clock,
+            #current-date {
+                display: none;
+            }
+
+            .logo {
+                margin-left: auto;
+            }
+
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .main-container {
+                padding-top: 90px;
+            }
+
+            .dropdown-menu {
+                top: 90px;
+                max-height: 0;
+                height: auto;
+                position: fixed;
+                width: 100%;
+                overflow: hidden;
+                transition: max-height 0.3s cubic-bezier(.86, 0, .07, 1);
+            }
+
+            .dropdown-menu.show {
+                max-height: calc(100vh - 90px);
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            body.menu-open {
+                overflow: hidden;
+            }
+
+            .dropdown-menu-content {
+                opacity: 0;
+                transform: translateY(-20px);
+                transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+                padding-bottom: 110px;
+            }
+
+            .dropdown-menu.show .dropdown-menu-content {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            body.dropdown-menu-open {
+                overflow: hidden;
+            }
+
+            .dropdown-menu::after {
+                content: '';
+                display: block;
+                height: 110px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-container">
+        <div class="main-container">
+            <div class="crawl-container">
+                <div class="crawl-wrapper">
+                    <div id="newsCrawl"></div>
+                </div>
+            </div>
+            <div class="header">
+                <div class="menu" onclick="toggleMenu()">
+                    <div class="menu-line"></div>
+                    <div class="menu-line"></div>
+                    <div class="menu-line"></div>
+                </div>
+                <img src="https://i.postimg.cc/vBTTcR16/2-2.png" alt="Logo" class="logo">
+                <div class="header-video-container">
+                    <video id="header-video1" class="header-video" muted></video>
+                    <video id="header-video2" class="header-video" muted></video>
+                </div>
+                <div class="clock">
+                    <div id="digital-clock"></div>
+                    <div id="current-date"></div>
+                </div>
+            </div>
+            <div id="dropdownMenu" class="dropdown-menu">
+                <a href="#">Link 1</a>
+                <a href="#">Link 2</a>
+                <a href="#">Link 3</a>
+                <a href="#">Link 4</a>
+                <a href="#">Link 5</a>
+                <a href="#">Link 6</a>
+                <a href="#">Link 7</a>
+                <a href="#">Link 8</a>
+                <a href="#">Link 9</a>
+                <a href="#">Link 10</a>
+                <a href="#">Link 11</a>
+                <a href="#">Link 12</a>
+                <a href="#">Link 13</a>
+                <a href="#">Link 14</a>
+                <a href="#">Link 15</a>
+                <a href="#">Link 16</a>
+                <a href="#">Link 17</a>
+                <a href="#">Link 18</a>
+                <a href="#">Link 19</a>
+                <a href="#">Link 20</a>
+                <a href="#">Link 21</a>
+                <a href="#">Link 22</a>
+                <a href="#">Link 23</a>
+                <a href="#">Link 24</a>
+                <a href="#">Link 25</a>
+                <a href="#">Link 26</a>
+                <a href="#">Link 27</a>
+                <a href="#">Link 28</a>
+                <a href="#">Link 29</a>
+                <a href="#">Link 30</a>
+                <a href="#">Link 31</a>
+                <a href="#">Link 32</a>
+                <a href="#">Link 33</a>
+                <a href="#">Link 34</a>
+                <a href="#">Link 35</a>
+                <a href="#">Link 36</a>
+            </div>
+            <div class="main-title">
+                <h1>ΒΟΥΛΗ</h1>
+            </div>
+            <div class="video-grid">
+                <div class="video-wrapper">
+                    <div class="video-container">
+                        <video id="video1" class="video-player"></video>
+                        <div class="video-controls">
+                            <button class="control-button mute-button" onclick="toggleMute(0)">
+                                <img src="https://i.postimg.cc/kgJm5t8B/volume-off-indicator.png" alt="Mute">
+                            </button>
+                            <button class="control-button fullscreen-button" onclick="toggleFullscreen(0)">
+                                <img src="https://i.postimg.cc/Vs4yVk2w/fullscreen.png" alt="Fullscreen">
+                            </button>
+                        </div>
+                    </div>
+                    <div class="title-box" onclick="copyHlsUrl(0, this)">
+                        <h3 class="title-text">ΒΟΥΛΟΚΑΝΑΛΟ</h3>
+                    </div>
+                </div>
+                <div class="video-wrapper">
+                    <div class="video-container">
+                        <video id="video2" class="video-player"></video>
+                        <div class="video-controls">
+                            <button class="control-button mute-button" onclick="toggleMute(1)">
+                                <img src="https://i.postimg.cc/kgJm5t8B/volume-off-indicator.png" alt="Mute">
+                            </button>
+                            <button class="control-button fullscreen-button" onclick="toggleFullscreen(1)">
+                                <img src="https://i.postimg.cc/Vs4yVk2w/fullscreen.png" alt="Fullscreen">
+                            </button>
+                        </div>
+                    </div>
+                    <div class="title-box" onclick="copyHlsUrl(1, this)">
+                        <h3 class="title-text">ΒΟΥΛΗ WEB 2</h3>
+                    </div>
+                </div>
+                <div class="video-wrapper">
+                    <div class="video-container">
+                        <video id="video3" class="video-player"></video>
+                        <div class="video-controls">
+                            <button class="control-button mute-button" onclick="toggleMute(2)">
+                                <img src="https://i.postimg.cc/kgJm5t8B/volume-off-indicator.png" alt="Mute">
+                            </button>
+                            <button class="control-button fullscreen-button" onclick="toggleFullscreen(2)">
+                                <img src="https://i.postimg.cc/Vs4yVk2w/fullscreen.png" alt="Fullscreen">
+                            </button>
+                        </div>
+                    </div>
+                    <div class="title-box" onclick="copyHlsUrl(2, this)">
+                        <h3 class="title-text">ΒΟΥΛΗ WEB 3</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Clock functions
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('digital-clock').textContent = `${hours}:${minutes}:${seconds}`;
+
+            const day = String(now.getDate()).padStart(2, '0');
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const year = now.getFullYear();
+            document.getElementById('current-date').textContent = `${day}-${month}-${year}`;
+        }
+
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Menu functions
+        function toggleMenu() {
+            const menu = document.getElementById('dropdownMenu');
+            const menuIcon = document.querySelector('.menu');
+            menuIcon.classList.toggle('change');
+            menu.classList.toggle('show');
+
+            // Toggle body class for preventing scroll
+            document.body.classList.toggle('menu-open');
+
+            // Reset the animation
+            menu.style.animation = 'none';
+            menu.offsetHeight; // Trigger reflow
+            menu.style.animation = null;
+
+            // Apply the appropriate animation
+            if (menu.classList.contains('show')) {
+                menu.style.animation = 'slideDown 0.3s ease-out forwards';
+            } else {
+                menu.style.animation = 'slideUp 0.3s ease-out forwards';
+            }
+        }
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const menu = document.getElementById('dropdownMenu');
+                const menuIcon = document.querySelector('.menu');
+                if (menu.classList.contains('show')) {
+                    menu.style.animation = 'slideUp 0.3s ease-out forwards';
+                    menu.classList.remove('show');
+                    menuIcon.classList.remove('change');
+                    document.body.classList.remove('menu-open');
+                }
+            }
+        });
+
+        // Video source setup
+        const headerVideoSources = [
+            'https://actionlive.siliconweb.com/actionabr/1actiontv/playlist.m3u8',
+            'https://atticatv.siliconweb.com/atticatv/1atticaliveabr/playlist.m3u8'
+        ];
+
+        const gridVideoSources = [
+            'https://ertflix.s.llnwi.net/ertlive/vouli/default/index.m3u8',
+            'https://streamer-cache.grnet.gr/parliament/hls/webtv2.m3u8',
+            'https://streamer-cache.grnet.gr/parliament/hls/webtv3.m3u8'
+        ];
+
+        let lastUnmutedGridVideo = null;
+        let hlsInstances = [];
+
+        // Video setup functions
+        function setupHeaderVideo(videoElement, src) {
+            if (Hls.isSupported()) {
+                const hls = new Hls({
+                    capLevelToPlayerSize: true,
+                    startLevel: 0 // Start with lowest quality (240p)
+                });
+                hls.loadSource(src);
+                hls.attachMedia(videoElement);
+                videoElement.hlsPlayer = hls;
+                hlsInstances.push(hls);
+                hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                    const lowQualityLevel = hls.levels.findIndex(level => level.height === 240);
+                    hls.currentLevel = lowQualityLevel !== -1 ? lowQualityLevel : 0;
+                    videoElement.play().catch(error => console.log('Playback was prevented:', error));
+                });
+
+                let isFullscreen = false;
+
+                videoElement.addEventListener('click', function() {
+                    if (!isFullscreen) {
+                        if (videoElement.requestFullscreen) {
+                            videoElement.requestFullscreen();
+                        } else if (videoElement.mozRequestFullScreen) {
+                            videoElement.mozRequestFullScreen();
+                        } else if (videoElement.webkitRequestFullscreen) {
+                            videoElement.webkitRequestFullscreen();
+                        } else if (videoElement.msRequestFullscreen) {
+                            videoElement.msRequestFullscreen();
+                        }
+                        videoElement.muted = false;
+                        const highQualityLevel = hls.levels.findIndex(level => level.height === 720);
+                        hls.currentLevel = highQualityLevel !== -1 ? highQualityLevel : hls.levels.length - 1;
+                        isFullscreen = true;
+
+                        document.querySelectorAll('.video-player').forEach((gridVideo) => {
+                            if (!gridVideo.muted) {
+                                lastUnmutedGridVideo = gridVideo;
+                                gridVideo.muted = true;
+                                updateMuteButtonIcon(gridVideo.parentElement.querySelector('.mute-button'), true);
+                            }
+                        });
+
+                        goToLastFrameForAllVideos(videoElement);
+                    } else {
+                        if (document.exitFullscreen) {
+                            document.exitFullscreen();
+                        } else if (document.mozCancelFullScreen) {
+                            document.mozCancelFullScreen();
+                        } else if (document.webkitExitFullscreen) {
+                            document.webkitExitFullscreen();
+                        } else if (document.msExitFullscreen) {
+                            document.msExitFullscreen();
+                        }
+                        isFullscreen = false;
+                    }
+                });
+
+                document.addEventListener('fullscreenchange', function() {
+                    if (!document.fullscreenElement) {
+                        const lowQualityLevel = hls.levels.findIndex(level => level.height === 240);
+                        hls.currentLevel = lowQualityLevel !== -1 ? lowQualityLevel : 0;
+                        videoElement.muted = true;
+                        isFullscreen = false;
+                        videoElement.play().catch(error => console.log('Playback was prevented:', error));
+
+                        if (lastUnmutedGridVideo) {
+                            lastUnmutedGridVideo.muted = false;
+                            updateMuteButtonIcon(lastUnmutedGridVideo.parentElement.querySelector('.mute-button'), false);
+                            lastUnmutedGridVideo = null;
+                        }
+
+                        goToLastFrameForAllVideos();
+                    }
+                });
+
+                document.addEventListener('keydown', function(event) {
+                    if (event.key === 'Escape' && isFullscreen) {
+                        const lowQualityLevel = hls.levels.findIndex(level => level.height === 240);
+                        hls.currentLevel = lowQualityLevel !== -1 ? lowQualityLevel : 0;
+                        videoElement.muted = true;
+                        isFullscreen = false;
+                        videoElement.play().catch(error => console.log('Playback was prevented:', error));
+
+                        goToLastFrameForAllVideos();
+                    }
+                });
+
+                videoElement.addEventListener('pause', function() {
+                    if (!isFullscreen) {
+                        videoElement.play().catch(error => console.log('Playback was prevented:', error));
+                    }
+                });
+
+                hls.on(Hls.Events.ERROR, function(event, data) {
+                    if (data.fatal) {
+                        switch (data.type) {
+                            case Hls.ErrorTypes.NETWORK_ERROR:
+                                console.log("Fatal network error encountered, try to recover");
+                                hls.startLoad();
+                                break;
+                            case Hls.ErrorTypes.MEDIA_ERROR:
+                                console.log("Fatal media error encountered, try to recover");
+                                hls.recoverMediaError();
+                                break;
+                            default:
+                                hls.destroy();
+                                break;
+                        }
+                    }
+                });
+            } else if (videoElement.canPlayType('application/vnd.apple.mpegurl')) {
+                videoElement.src = src;
+                videoElement.addEventListener('loadedmetadata', function() {
+                    videoElement.play().catch(error => console.log('Playback was prevented:', error));
+                });
+
+                videoElement.addEventListener('click', function() {
+                    if (!document.webkitFullscreenElement) {
+                        if (videoElement.webkitEnterFullscreen) {
+                            videoElement.webkitEnterFullscreen();
+                        }
+                        videoElement.muted = false;
+
+                        document.querySelectorAll('.video-player').forEach((gridVideo) => {
+                            if (!gridVideo.muted) {
+                                lastUnmutedGridVideo = gridVideo;
+                                gridVideo.muted = true;
+                                updateMuteButtonIcon(gridVideo.parentElement.querySelector('.mute-button'), true);
+                            }
+                        });
+
+                        goToLastFrameForAllVideos(videoElement);
+                    } else {
+                        if (document.webkitExitFullscreen) {
+                            document.webkitExitFullscreen();
+                        }
+                    }
+                });
+
+                videoElement.addEventListener('webkitendfullscreen', function() {
+                    videoElement.muted = true;
+                    videoElement.play().catch(error => console.log('Playback was prevented:', error));
+
+                    if (lastUnmutedGridVideo) {
+                        lastUnmutedGridVideo.muted = false;
+                        updateMuteButtonIcon(lastUnmutedGridVideo.parentElement.querySelector('.mute-button'), false);
+                        lastUnmutedGridVideo = null;
+                    }
+
+                    goToLastFrameForAllVideos();
+                });
+            }
+        }
+
+        function setupGridVideo(videoElement, src) {
+            if (Hls.isSupported()) {
+                const hls = new Hls({
+                    capLevelToPlayerSize: true,
+                    startLevel: 0 // Start with lowest quality (240p)
+                });
+                hls.loadSource(src);
+                hls.attachMedia(videoElement);
+                videoElement.hlsPlayer = hls;
+                hlsInstances.push(hls);
+                hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                    const lowQualityLevel = hls.levels.findIndex(level => level.height === 240);
+                    hls.currentLevel = lowQualityLevel !== -1 ? lowQualityLevel : 0;
+                    videoElement.muted = true;
+                    videoElement.play().catch(error => {
+                        console.log('Autoplay was prevented:', error);
+                        videoElement.muted = true;
+                        videoElement.play().catch(error => console.log('Muted autoplay was also prevented:', error));
+                    });
+                });
+
+                hls.on(Hls.Events.ERROR, function(event, data) {
+                    if (data.fatal) {
+                        switch (data.type) {
+                            case Hls.ErrorTypes.NETWORK_ERROR:
+                                console.log("Fatal network error encountered, try to recover");
+                                hls.startLoad();
+                                break;
+                            case Hls.ErrorTypes.MEDIA_ERROR:
+                                console.log("Fatal media error encountered, try to recover");
+                                hls.recoverMediaError();
+                                break;
+                            default:
+                                hls.destroy();
+                                break;
+                        }
+                    }
+                });
+
+                videoElement.addEventListener('fullscreenchange', function() {
+                    if (document.fullscreenElement === videoElement) {
+                        const highQualityLevel = hls.levels.findIndex(level => level.height === 720);
+                        hls.currentLevel = highQualityLevel !== -1 ? highQualityLevel : hls.levels.length - 1;
+                        goToLastFrameForAllVideos(videoElement);
+                    } else {
+                        const lowQualityLevel = hls.levels.findIndex(level => level.height === 240);
+                        hls.currentLevel = lowQualityLevel !== -1 ? lowQualityLevel : 0;
+                    }
+                });
+            } else if (videoElement.canPlayType('application/vnd.apple.mpegurl')) {
+                videoElement.src = src;
+                videoElement.addEventListener('loadedmetadata', function() {
+                    videoElement.muted = true;
+                    videoElement.play().catch(error => {
+                        console.log('Autoplay was prevented:', error);
+                        videoElement.muted = true;
+                        videoElement.play().catch(error => console.log('Muted autoplay was also prevented:', error));
+                    });
+                });
+
+                videoElement.addEventListener('error', function() {
+                    // Handle error
+                });
+            }
+        }
+
+        document.querySelectorAll('.video-player').forEach((video, index) => {
+            setupGridVideo(video, gridVideoSources[index]);
+        });
+
+        setupHeaderVideo(document.getElementById('header-video1'), headerVideoSources[0]);
+        setupHeaderVideo(document.getElementById('header-video2'), headerVideoSources[1]);
+
+        function copyHlsUrl(index, titleBox) {
+            const originalTitle = titleBox.querySelector('.title-text').textContent;
+            const originalBgColor = titleBox.style.backgroundColor;
+
+            navigator.clipboard.writeText(gridVideoSources[index]).then(() => {
+                titleBox.querySelector('.title-text').textContent = "COPIED!";
+                titleBox.style.backgroundColor = "#2cff00";
+
+                setTimeout(() => {
+                    titleBox.querySelector('.title-text').textContent = originalTitle;
+                    titleBox.style.backgroundColor = originalBgColor;
+                }, 800);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        }
+
+        function toggleMute(index) {
+            const video = document.getElementById(`video${index + 1}`);
+            const muteButton = video.parentElement.querySelector('.mute-button');
+
+            // Mute all other videos first
+            document.querySelectorAll('.video-player').forEach((otherVideo, otherIndex) => {
+                if (otherIndex !== index) {
+                    otherVideo.muted = true;
+                    updateMuteButtonIcon(otherVideo.parentElement.querySelector('.mute-button'), true);
+                }
+            });
+
+            // Toggle mute state for the clicked video
+            if (video.muted) {
+                video.muted = false;
+                updateMuteButtonIcon(muteButton, false);
+                lastUnmutedGridVideo = video;
+            } else {
+                video.muted = true;
+                updateMuteButtonIcon(muteButton, true);
+                lastUnmutedGridVideo = null;
+            }
+
+            // Ensure the video is playing
+            video.play().catch(error => console.log('Playback was prevented:', error));
+        }
+
+        function updateMuteButtonIcon(button, isMuted) {
+            const img = button.querySelector('img');
+            if (img) {
+                img.src = isMuted ? "https://i.postimg.cc/kgJm5t8B/volume-off-indicator.png" : "https://i.postimg.cc/sxCFCBsf/volume-up-indicator.png";
+            }
+        }
+
+        // Add event listener for fullscreenchange
+        document.addEventListener('fullscreenchange', function() {
+            const fullscreenVideo = document.fullscreenElement;
+            if (!fullscreenVideo) {
+                // When exiting fullscreen, ensure all mute buttons show the correct icon
+                document.querySelectorAll('.video-player').forEach((video) => {
+                    const muteIcon = video.parentElement.querySelector('.mute-button img');
+                    if (muteIcon) {
+                        muteIcon.src = video.muted ? "https://i.postimg.cc/kgJm5t8B/volume-off-indicator.png" : "https://i.postimg.cc/sxCFCBsf/volume-up-indicator.png";
+                    }
+                });
+            }
+        });
+
+        // Ensure mute buttons always show icons, not text
+        document.querySelectorAll('.mute-button').forEach((button) => {
+            const img = button.querySelector('img');
+            if (!img) {
+                const newImg = document.createElement('img');
+                newImg.src = "https://i.postimg.cc/kgJm5t8B/volume-off-indicator.png";
+                button.textContent = ''; // Remove any existing text
+                button.appendChild(newImg);
+            }
+        });
+
+        function toggleFullscreen(index) {
+            const video = document.getElementById(`video${index + 1}`);
+
+            if (!document.fullscreenElement) {
+                if (video.requestFullscreen) {
+                    video.requestFullscreen();
+                } else if (video.mozRequestFullScreen) {
+                    video.mozRequestFullScreen();
+                } else if (video.webkitRequestFullscreen) {
+                    video.webkitRequestFullscreen();
+                } else if (video.msRequestFullscreen) {
+                    video.msRequestFullscreen();
+                }
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.mozCancelFullScreen) {
+                    document.mozCancelFullScreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
+            }
+        }
+
+        // Ensure all videos are playing and muted on page load
+        window.addEventListener('load', function() {
+            document.querySelectorAll('.video-player').forEach((video) => {
+                video.muted = true;
+                video.play().catch(error => console.log('Autoplay was prevented:', error));
+            });
+        });
+
+        // News ticker setup
+        const proxyUrl = 'https://api.codetabs.com/v1/proxy?quest=';
+        const greekNewsRss = 'https://www.in.gr/feed';
+
+        async function fetchNews() {
+            try {
+                const response = await fetch(proxyUrl + encodeURIComponent(greekNewsRss));
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.text();
+                const parser = new DOMParser();
+                const xml = parser.parseFromString(data, "text/xml");
+                const items = xml.querySelectorAll("item");
+                const newsItems = Array.from(items).map(item => ({
+                    title: item.querySelector("title").textContent,
+                    link: item.querySelector("link").textContent,
+                    pubDate: new Date(item.querySelector("pubDate").textContent)
+                }));
+                // Sort news items by publication date, most recent first
+                newsItems.sort((a, b) => b.pubDate - a.pubDate);
+                displayNews(newsItems);
+            } catch (error) {
+                console.error('Error fetching news:', error);
+                displayError(`Error loading news: ${error.message}`);
+            }
+        }
+
+        function displayNews(newsItems) {
+            const crawl = document.getElementById('newsCrawl');
+            if (newsItems.length === 0) {
+                displayError('No news items found.');
+                return;
+            }
+            // Repeat the news items to ensure continuous looping
+            const repeatedItems = newsItems.concat(newsItems);
+            crawl.innerHTML = repeatedItems.map(item =>
+                `<span class="crawl-item"><a href="${item.link}" target="_blank">${item.title}</a></span>`
+            ).join('');
+            document.getElementById('error-message').textContent = '';
+
+            // Set up right-to-left animation
+            crawl.style.whiteSpace = 'nowrap';
+            crawl.style.position = 'relative';
+            crawl.style.right = '0';
+
+            let animationFrame;
+
+            function animate() {
+                const currentRight = parseInt(crawl.style.right);
+                if (currentRight >= crawl.scrollWidth / 2) {
+                    // Reset to the beginning when we've scrolled through half of the content
+                    crawl.style.right = '0';
+                } else {
+                    crawl.style.right = (currentRight + 1) + 'px';
+                }
+                animationFrame = requestAnimationFrame(animate);
+            }
+
+            animate();
+
+            // Add event listener to pause animation on hover
+            crawl.addEventListener('mouseenter', () => cancelAnimationFrame(animationFrame));
+            crawl.addEventListener('mouseleave', () => animate());
+        }
+
+        function displayError(message) {
+            document.getElementById('error-message').textContent = message;
+            document.getElementById('newsCrawl').innerHTML = '';
+        }
+
+        // Initial fetch
+        fetchNews();
+
+        // Refresh news every 10 minutes
+        setInterval(fetchNews, 10 * 60 * 1000);
+    </script>
+</body>
+
+</html>
